@@ -18,7 +18,7 @@ func fnv32(key string) uint32 {
     return hash
 }
 
-func NewTableLocker(tableSize int) *TableLocker {
+func NewTableLocker(tableSize int) Locker {
     table := make([]*sync.RWMutex, tableSize)
     for i := 0; i < tableSize; i++ {
         table[i] = &sync.RWMutex{}

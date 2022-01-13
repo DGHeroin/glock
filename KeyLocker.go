@@ -7,20 +7,20 @@ type (
         sync.Mutex
         count int
     }
-    Locker struct {
+    kLocker struct {
         lock  sync.Mutex
         locks map[string]*KeyLocker
     }
 )
 
-func NewKeyLocker() *Locker {
-    return &Locker{
+func NewKeyLocker() Locker {
+    return &kLocker{
         lock:  sync.Mutex{},
         locks: make(map[string]*KeyLocker),
     }
 }
 
-func (l *Locker) Lock(key string) {
+func (l *kLocker) Lock(key string) {
     l.lock.Lock()
 
     keyLocker := l.locks[key]
@@ -34,7 +34,7 @@ func (l *Locker) Lock(key string) {
     keyLocker.Lock()
 }
 
-func (l *Locker) UnLock(key string) {
+func (l *kLocker) UnLock(key string) {
     l.lock.Lock()
     keyLocker := l.locks[key]
     keyLocker.Unlock()
